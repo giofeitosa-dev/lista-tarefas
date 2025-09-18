@@ -4,6 +4,8 @@ import AddTodo from "./AddTodo";
 import DeleteTodo from "./DeleteTodo";
 import UpdateTodo from "./UpdateTodo";
 
+
+
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
@@ -15,15 +17,28 @@ function TodoList() {
   }, []);
 
   return (
-    <div>
-      <h2> Lista de tarefas </h2>
+ <div className="todo-container">
+      <h2 className="todo-title">📋 Lista de Tarefas</h2>
+
       <AddTodo onAdd={setTodos} />
-      <ul>
+
+      <ul className="todo-list">
         {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.name} - {todo.done ? "✅" : "❌"}
-            <UpdateTodo todo={todo} onUpdate={setTodos}/>
-            <DeleteTodo id={todo.id} onDelete={setTodos} />
+          <li key={todo.id} className="todo-item">
+            <div className="todo-info">
+              <h3 className={`todo-name ${todo.done ? "done" : ""}`}>
+                {todo.name}
+              </h3>
+              <p className="todo-desc">{todo.description || "Sem descrição"}</p>
+              <span className="todo-priority">
+                Prioridade: {todo.priority}
+              </span>
+            </div>
+
+            <div className="todo-actions">
+              <UpdateTodo todo={todo} onUpdate={setTodos} />
+              <DeleteTodo id={todo.id} onDelete={setTodos} />
+            </div>
           </li>
         ))}
       </ul>
