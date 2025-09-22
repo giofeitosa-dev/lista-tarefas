@@ -63,11 +63,10 @@ Aplicação fullstack para gerenciamento de tarefas (CRUD), desenvolvida com **S
     spring.datasource.password=SUA_SENHA
     spring.jpa.hibernate.ddl-auto=update
 
-
 3. Execute a aplicação:
     ```bash 
     mvn spring-boot:run
-
+    
 4. O backend estará rodando em:
     ```bash 
     http://localhost:8080
@@ -82,7 +81,6 @@ Aplicação fullstack para gerenciamento de tarefas (CRUD), desenvolvida com **S
 2. instalar dependências:
     ```bash
     npm install
-
 
 3. Executar projeto:
     ```bash 
@@ -100,11 +98,11 @@ Aplicação fullstack para gerenciamento de tarefas (CRUD), desenvolvida com **S
 
 ![Tela Principal](./frontend/img/principal.png)
 
-Exibe as tarefas com nome, descrição e prioridade.
+- Exibe as tarefas com nome, descrição e prioridade.
 
-Possui botões de Editar, Excluir e Concluir/Reabrir.
+- Possui botões de Editar, Excluir e Concluir/Reabrir.
 
-Campo de filtro (todas, pendentes, concluídas).
+- Campo de filtro (todas, pendentes, concluídas).
 
 -- 
 
@@ -112,7 +110,7 @@ Campo de filtro (todas, pendentes, concluídas).
 
 ![Editar tarefa](./frontend/img/editar.png)
 
-Permite inserir ou atualizar os dados da tarefa.
+- Permite inserir ou atualizar os dados da tarefa.
 
 ---
 👨‍💻 Autor
