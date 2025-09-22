@@ -8,6 +8,7 @@ import UpdateTodo from "./UpdateTodo";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     api
@@ -16,14 +17,41 @@ function TodoList() {
       .catch((error) => console.error("Erro ao buscar tarefas:", error));
   }, []);
 
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "done") return todo.done;
+    if (filter === "pending") return !todo.done;
+    return true; // "all"
+  });
+
   return (
  <div className="todo-container">
       <h2 className="todo-title">📋 Lista de Tarefas</h2>
 
       <AddTodo onAdd={setTodos} />
 
+      <div className="filters">
+        <button
+          className={`btn ${filter === "all" ? "btn-blue" : "btn-gray"}`}
+          onClick={() => setFilter("all")}
+        >
+          Todas
+        </button>
+        <button
+          className={`btn ${filter === "pending" ? "btn-blue" : "btn-gray"}`}
+          onClick={() => setFilter("pending")}
+        >
+          Pendentes
+        </button>
+        <button
+          className={`btn ${filter === "done" ? "btn-blue" : "btn-gray"}`}
+          onClick={() => setFilter("done")}
+        >
+          Concluídas
+        </button>
+      </div>
+
       <ul className="todo-list">
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) =>  (
           <li key={todo.id} className="todo-item">
             <div className="todo-info">
               <h3 className={`todo-name ${todo.done ? "done" : ""}`}>
