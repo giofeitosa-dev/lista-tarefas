@@ -28,9 +28,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                      FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
+        System.out.println("[JWT DEBUG] Header recebido: " + header);
 
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -39,18 +40,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = header.substring(7);
         String username = jwtUtil.extractUsername(token);
+        System.out.println("[JWT DEBUG] Username extraído do token: " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            System.out.println("[JWT DEBUG] Usuário encontrado no banco: " + userDetails.getUsername());
+            System.out.println("[JWT DEBUG] Autoridades do banco: " + userDetails.getAuthorities());
 
-            if (jwtUtil.isTokenValid(token, userDetails)) {
+            boolean valido = jwtUtil.isTokenValid(token, userDetails);
+            System.out.println("[JWT DEBUG] Token válido? " + valido);
+
+            if (valido) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("[JWT DEBUG] Autenticação definida com sucesso!");
             }
         }
 
-        filterChain.doFilter(request, response);
-    }
+    filterChain.doFilter(request, response);
+}
 }

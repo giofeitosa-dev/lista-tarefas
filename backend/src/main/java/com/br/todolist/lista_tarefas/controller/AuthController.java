@@ -45,20 +45,23 @@ public class AuthController {
         User user = new User();
         user.setUsername(request.username());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(Role.USER); // novo cadastro sempre entra como USER comum
+        user.setRole(Role.USER); 
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
+
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password())
-        );
+public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.username(), request.password())
+    );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
-        String token = jwtUtil.generateToken(userDetails);
+    UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
+    String token = jwtUtil.generateToken(userDetails);
+    String role = userDetails.getAuthorities().iterator().next().getAuthority(); 
 
-        return ResponseEntity.ok(new AuthResponse(token));
-    }
+    return ResponseEntity.ok(new AuthResponse(token, userDetails.getUsername(), role));
+}
 }
