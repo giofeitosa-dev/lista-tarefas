@@ -4,7 +4,7 @@ import api from "../services/api";
 function DeleteTodo({ id, onDelete }) {
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`/${id}`);
+      const response = await api.delete(`/todos/${id}`);
       onDelete(response.data);
     } catch (error) {
       console.error("Erro ao deletar tarefa:", error);

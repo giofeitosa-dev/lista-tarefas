@@ -13,7 +13,7 @@ function UpdateTodo({ todo, onUpdate }) {
 
   const handleSave = async () => {
     try {
-      const response = await api.put("", editedTodo);
+      const response = await api.put("/todos", editedTodo);
       onUpdate(response.data);
       setIsEditing(false);
     } catch (error) {

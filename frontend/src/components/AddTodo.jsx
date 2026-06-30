@@ -9,7 +9,7 @@ function AddTodo({ onAdd }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("", {
+      const response = await api.post("/todos", {
         name,
         description,
         done: false,

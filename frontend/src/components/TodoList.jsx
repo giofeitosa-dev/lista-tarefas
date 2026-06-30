@@ -4,15 +4,13 @@ import AddTodo from "./AddTodo";
 import DeleteTodo from "./DeleteTodo";
 import UpdateTodo from "./UpdateTodo";
 
-
-
-function TodoList() {
+function TodoList({ isAdmin }) {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     api
-      .get("")
+      .get("/todos")
       .then((response) => setTodos(response.data))
       .catch((error) => console.error("Erro ao buscar tarefas:", error));
   }, []);
@@ -20,11 +18,11 @@ function TodoList() {
   const filteredTodos = todos.filter((todo) => {
     if (filter === "done") return todo.done;
     if (filter === "pending") return !todo.done;
-    return true; // "all"
+    return true;
   });
 
   return (
- <div className="todo-container">
+    <div className="todo-container">
       <h2 className="todo-title">📋 Lista de Tarefas</h2>
 
       <AddTodo onAdd={setTodos} />
@@ -51,7 +49,7 @@ function TodoList() {
       </div>
 
       <ul className="todo-list">
-        {filteredTodos.map((todo) =>  (
+        {filteredTodos.map((todo) => (
           <li key={todo.id} className="todo-item">
             <div className="todo-info">
               <h3 className={`todo-name ${todo.done ? "done" : ""}`}>
@@ -65,7 +63,7 @@ function TodoList() {
 
             <div className="todo-actions">
               <UpdateTodo todo={todo} onUpdate={setTodos} />
-              <DeleteTodo id={todo.id} onDelete={setTodos} />
+              {isAdmin && <DeleteTodo id={todo.id} onDelete={setTodos} />}
             </div>
           </li>
         ))}
