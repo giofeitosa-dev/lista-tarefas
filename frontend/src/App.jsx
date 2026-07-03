@@ -19,15 +19,21 @@ function AppContent() {
   const isAdmin = role === 'ROLE_ADMIN';
 
   return (
-    <div>
-      <header style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span>Logado como {isAdmin ? 'Admin' : 'Usuário'}</span>
-        <button onClick={logout}>Sair</button>
-      </header>
-      <TodoList isAdmin={isAdmin} />
+  <div className="todo-container" style={{ maxWidth: 700 }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+      <span style={{ color: '#555', fontSize: '0.9rem' }}>
+        Logado como <strong>{isAdmin ? 'Admin' : 'Usuário'}</strong>
+      </span>
+      <button onClick={logout} className="btn btn-gray">
+        Sair
+      </button>
     </div>
-  );
+    <TodoList isAdmin={isAdmin} />
+  </div>
+);
 }
+
+
 
 export default function App() {
   return (

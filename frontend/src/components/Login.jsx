@@ -20,30 +20,38 @@ export default function Login({ onSwitchToRegister }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Entrar</h2>
-      <input
-        type="text"
-        placeholder="Usuário"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Entrar</button>
-      <p>
+    <div className="todo-container" style={{ maxWidth: 400 }}>
+      <h2 className="todo-title">🔐 Login</h2>
+      <div className="add-form" style={{ flexDirection: 'column' }}>
+        <input
+          type="text"
+          placeholder="Usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="input"
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="input"
+        />
+        {error && <p style={{ color: '#dc2626', margin: 0 }}>{error}</p>}
+        <button onClick={handleSubmit} className="btn btn-blue">
+          Entrar
+        </button>
+      </div>
+      <p style={{ textAlign: 'center', color: '#555' }}>
         Não tem conta?{' '}
-        <button type="button" onClick={onSwitchToRegister}>
+        <button
+          onClick={onSwitchToRegister}
+          className="btn btn-gray"
+          style={{ padding: '4px 10px', fontSize: '0.85rem' }}
+        >
           Cadastre-se
         </button>
       </p>
-    </form>
+    </div>
   );
 }
