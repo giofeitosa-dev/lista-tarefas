@@ -4,7 +4,7 @@ import AddTodo from "./AddTodo";
 import DeleteTodo from "./DeleteTodo";
 import UpdateTodo from "./UpdateTodo";
 
-function TodoList({ isAdmin }) {
+function TodoList() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
 
@@ -63,7 +63,7 @@ function TodoList({ isAdmin }) {
 
             <div className="todo-actions">
               <UpdateTodo todo={todo} onUpdate={setTodos} />
-              {isAdmin && <DeleteTodo id={todo.id} onDelete={setTodos} />}
+              <DeleteTodo id={todo.id} onDelete={setTodos} />
             </div>
           </li>
         ))}
