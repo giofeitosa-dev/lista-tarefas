@@ -1,9 +1,12 @@
 package com.br.todolist.lista_tarefas.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,54 +14,44 @@ import jakarta.persistence.Table;
 public class Todo {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
     private boolean done;
     private int priority;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 
+    public Long getId() { 
+        return id; }
+    public void setId(Long id) { 
+        this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getName() { 
+        return name; }
+    public void setName(String name) { 
+        this.name = name; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() { 
+        return description; }
+    public void setDescription(String description) { 
+        this.description = description; }
 
     public boolean isDone() {
-        return done;
-    }
+        return done; }
+    public void setDone(boolean done) { 
+        this.done = done; }
 
-    public void setDone(boolean done) {
-        this.done = done;
-    }
+    public int getPriority() { 
+        return priority; }
+    public void setPriority(int priority) { 
+        this.priority = priority; }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-    
-    
+    public User getOwner() { 
+        return owner; }
+    public void setOwner(User owner) { 
+        this.owner = owner; }
 }
