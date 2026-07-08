@@ -19,7 +19,10 @@ import com.br.todolist.lista_tarefas.entity.Role;
 import com.br.todolist.lista_tarefas.entity.User;
 import com.br.todolist.lista_tarefas.repository.UserRepository;
 import com.br.todolist.lista_tarefas.security.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Autenticação", description = "Registro e login de usuários")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -40,6 +43,7 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
+    @Operation(summary = "Registrar usuário", description = "Cria uma nova conta com papel USER")
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegisterRequest request) {
         User user = new User();
@@ -50,18 +54,17 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-
+    @Operation(summary = "Login", description = "Autentica o usuário e retorna um token JWT válido por 24h")
     @PostMapping("/login")
-public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-    authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.username(), request.password())
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.username(), request.password())
     );
 
-    UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
-    String token = jwtUtil.generateToken(userDetails);
-    String role = userDetails.getAuthorities().iterator().next().getAuthority(); 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
+        String token = jwtUtil.generateToken(userDetails);
+        String role = userDetails.getAuthorities().iterator().next().getAuthority(); // "ROLE_ADMIN" ou "ROLE_USER"
 
-    return ResponseEntity.ok(new AuthResponse(token, userDetails.getUsername(), role));
-}
+        return ResponseEntity.ok(new AuthResponse(token, userDetails.getUsername(), role));
+    }
 }

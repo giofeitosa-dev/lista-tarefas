@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.todolist.lista_tarefas.entity.Todo;
 import com.br.todolist.lista_tarefas.service.TodoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Tarefas", description = "Gerenciamento de tarefas do usuário autenticado") // ← adiciona antes do @RestController
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
@@ -25,24 +28,28 @@ public class TodoController {
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
-
+    
+    @Operation(summary = "Criar tarefa", description = "Cria uma nova tarefa associada ao usuário logado")
     @PostMapping
     List<Todo> create(@RequestBody Todo todo,
                       @AuthenticationPrincipal UserDetails userDetails) {
         return todoService.create(todo, userDetails.getUsername());
     }
 
+    @Operation(summary = "Listar tarefas", description = "Retorna todas as tarefas do usuário logado")
     @GetMapping
     List<Todo> list(@AuthenticationPrincipal UserDetails userDetails) {
         return todoService.list(userDetails.getUsername());
     }
 
+    @Operation(summary = "Atualizar tarefa", description = "Atualiza uma tarefa existente do usuário logado")
     @PutMapping
     List<Todo> update(@RequestBody Todo todo,
                       @AuthenticationPrincipal UserDetails userDetails) {
         return todoService.update(todo, userDetails.getUsername());
     }
 
+    @Operation(summary = "Excluir tarefa", description = "Exclui uma tarefa do usuário logado")
     @DeleteMapping("{id}")
     List<Todo> delete(@PathVariable("id") Long id,
                       @AuthenticationPrincipal UserDetails userDetails) {
